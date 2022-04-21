@@ -47,3 +47,4 @@ def show_add(add_my_fruit):
     return streamlit.write(f'Thanks for adding {add_my_fruit}.')
   
 show_add(add_my_fruit)
+my_cur.execute("insert into fruit_load_list values ('from streamlit')")
