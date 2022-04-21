@@ -1,7 +1,7 @@
 import streamlit
-#import pandas as pd
-#import requests
-#import snowflake.connector
+import pandas as pd
+import requests
+import snowflake.connector
 from urllib.error import URLError
 
 my_fruit_list = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
@@ -22,7 +22,6 @@ fruits_to_show = my_fruit_list.loc[fruits_selected]
 streamlit.dataframe(fruits_to_show)
 
 streamlit.header('Fruityvice Fruit Advice!')
-#streamlit.text(fruityvice_response.json())
 
 fruit_choice = streamlit.text_input('What fruit would you like information about?', 'Kiwi')
 streamlit.write('The user entered', fruit_choice)
@@ -34,16 +33,12 @@ streamlit.stop()
 
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur = my_cnx.cursor()
-#my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
 my_cur.execute("select * from fruit_load_list")
-#my_data_row = my_cur.fetchone()
 my_data_row = my_cur.fetchall()
 streamlit.header("The fruit load list contains:")
-#streamlit.text(my_data_row)
 streamlit.dataframe(my_data_row)
 
 add_my_fruit = streamlit.text_input('What fruit would you like to add?')
-
 
 def show_add(add_my_fruit):
   if len(add_my_fruit)>= 1:
