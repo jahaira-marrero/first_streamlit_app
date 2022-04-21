@@ -44,6 +44,6 @@ add_my_fruit = streamlit.text_input('What fruit would you like to add?')
 
 def show_add(add_my_fruit):
   if len(add_my_fruit)>= 1:
-    return streamlit.write('Thanks for adding', add_my_fruit)
+    return streamlit.write(f'Thanks for adding {add_my_fruit}.')
   
 show_add(add_my_fruit)
