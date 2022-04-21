@@ -3,8 +3,6 @@ import pandas as pd
 import requests
 import snowflake.connector
 
-
-
 my_fruit_list = pd.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 my_fruit_list = my_fruit_list.set_index("Fruit")
 
@@ -40,3 +38,6 @@ my_data_row = my_cur.fetchall()
 streamlit.header("The fruit load list contains:")
 #streamlit.text(my_data_row)
 streamlit.dataframe(my_data_row)
+
+add_my_fruit = streamlit.text_input('What fruit would you like to add?')
+streamlit.write('Thanks for adding', add_my_fruit)
