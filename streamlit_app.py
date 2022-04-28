@@ -65,7 +65,7 @@ if streamlit.button('Add a Fruit to the List'):
   my_cnx.close()
   streamlit.text(back_from_function)
 
-df = pandas.Dataframe(my_fruit_list}
+df = pandas.Dataframe(my_fruit_list)
 print(df.head)
 streamlit.header("Sample Charts")
 #streamlit.line_chart(df)
