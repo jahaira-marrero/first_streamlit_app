@@ -67,10 +67,9 @@ if streamlit.button('Add a Fruit to the List'):
   streamlit.text(back_from_function)
 
 data = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
-data.rename(lowercase, axis='columns', inplace=True)
 
 streamlit.header("Sample Charts")
-streamlit.text(data)
+streamlit.dataframe(data)
 #streamlit.line_chart(df)
 
 
