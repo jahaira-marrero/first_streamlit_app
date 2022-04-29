@@ -1,6 +1,7 @@
 import streamlit
 import pandas
 import numpy
+import matplotlib
 import requests
 import snowflake.connector
 from urllib.error import URLError
@@ -65,8 +66,8 @@ if streamlit.button('Add a Fruit to the List'):
   my_cnx.close()
   streamlit.text(back_from_function)
 
-df = pandas.Dataframe(my_fruit_list)
-print(df.head)
+# df = pandas.Dataframe(my_fruit_list)
+# print(df.head)
 streamlit.header("Sample Charts")
 #streamlit.line_chart(df)
 
