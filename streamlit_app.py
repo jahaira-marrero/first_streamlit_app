@@ -70,6 +70,9 @@ data = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fr
 
 streamlit.header("Sample Charts")
 streamlit.dataframe(data)
+hist_values = numpy.histogram(data['Fruit'].dt.serving_gram_weight, bins=24, range=(0,300))[0]
+streamlit.bar_chart(hist_values)
+                              
 #streamlit.line_chart(df)
 
 
