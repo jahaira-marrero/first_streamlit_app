@@ -6,6 +6,7 @@ import requests
 import snowflake.connector
 from urllib.error import URLError
 
+# Data from s3 bucket
 my_fruit_list = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 my_fruit_list = my_fruit_list.set_index("Fruit")
 
@@ -17,12 +18,15 @@ streamlit.text("🥗 Kale, Spinach & Rocket Smoothie")
 streamlit.text("🐔 Hard-Boiled Free-Range Egg")
 streamlit.text("🥑🍞 Avocado Toast")
 
+
+# Returns the fruit that was selected (from the s3 bucket data)
 streamlit.header("🍌🍓 Build Your Own Fruit Smoothie 🥝🍇")
 fruits_selected = streamlit.multiselect("Pick some fruits:", list(my_fruit_list.index), ['Avocado', 'Strawberries'])
 fruits_to_show = my_fruit_list.loc[fruits_selected]
 
 streamlit.dataframe(fruits_to_show)
 
+# Fetching from an API
 def get_fruityvice_data(this_fruit_choice):
   fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+ fruit_choice)
   fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
@@ -41,19 +45,21 @@ try:
 except URLError as e:
     streamlit.error()
 
-#Getting the Fruit Load List
+#Getting the Fruit Load List (a table in the pulic schema)
 streamlit.header("View Our Fruit List - Add Your Favorites!")
 def get_fruit_load_list():
   with my_cnx.cursor() as my_cur:
     my_cur.execute("select * from fruit_load_list")
     return my_cur.fetchall()
 
+ # Gets the entire fruit list from the table when button is clicked
 if streamlit.button('Get Fruit List'):
   my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
   my_data_rows = get_fruit_load_list()
   my_cnx.close()
   streamlit.dataframe(my_data_rows)
-
+  
+# inserts new row to table when the button is clicked
 def  insert_row_snowflake(new_fruit):
   with my_cnx.cursor() as my_cur:
     my_cur.execute("insert into fruit_load_list values ('" + new_fruit + "') ")
@@ -66,14 +72,6 @@ if streamlit.button('Add a Fruit to the List'):
   my_cnx.close()
   streamlit.text(back_from_function)
 
-# data = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
-# data['Fruit'] = pandas
 
-# streamlit.header("Sample Charts")
-# streamlit.dataframe(data)
-# hist_values = numpy.histogram(data['Fruit'].str.serving_gram_weight, bins=24, range=(0,300))[0]
-# streamlit.bar_chart(hist_values)
-                              
-#streamlit.line_chart(df)
 
 
